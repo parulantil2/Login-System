@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # User made middleware :Two methods to plugin middleware
     # 'middleware.main.ExampleMiddleware',
-    'middleware.main.JWTAuthenticationMiddleware',
+    'middleware.JWTAuthenticationMiddleware',
     # 'myapp.JWTAuthenticationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
