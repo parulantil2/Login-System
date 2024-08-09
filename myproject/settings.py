@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # User made middleware :Two methods to plugin middleware
     # 'middleware.main.ExampleMiddleware',
-    'middleware.JWTAuthenticationMiddleware',
+    'middleware.main.JWTAuthenticationMiddleware',
     # 'myapp.JWTAuthenticationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -141,7 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 
-# # Token based authentication
+# JWT based authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -186,7 +186,6 @@ REST_FRAMEWORK = {
 
 
 # Logging
-# settings.py
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -208,4 +207,18 @@ LOGGING = {
         },
     },
 }
+
+
+# Email backend for sending emails via SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# SMTP server configuration
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server
+EMAIL_PORT = 587  # Common port for TLS (587) or 465 for SSL
+EMAIL_USE_TLS = True  # Use TLS(Transport layer security)for security
+EMAIL_USE_SSL = False  # Use SSL(Secure socket layer), but not both TLS and SSL at the same time
+EMAIL_HOST_USER = 'antilparul06@gmail.com'  # SMTP server username
+EMAIL_HOST_PASSWORD = 'wlix nmym sybi anzc '  # SMTP server password
+
+# Optional: Default sender email address
+# DEFAULT_FROM_EMAIL = 'webmaster@example.com'
 
