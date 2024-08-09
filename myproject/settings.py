@@ -216,7 +216,7 @@ EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server
 EMAIL_PORT = 587  # Common port for TLS (587) or 465 for SSL
 EMAIL_USE_TLS = True  # Use TLS(Transport layer security)for security
 EMAIL_USE_SSL = False  # Use SSL(Secure socket layer), but not both TLS and SSL at the same time
-EMAIL_HOST_USER = 'antilparul06@gmail.com'  # SMTP server username
+EMAIL_HOST_USER = 'antilparul@gmail.com'  # SMTP server username
 EMAIL_HOST_PASSWORD = 'wlix nmym sybi anzc '  # SMTP server password
 
 # Optional: Default sender email address
