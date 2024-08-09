@@ -10,11 +10,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+from .forms import CustomUserCreationForm
 from .serializers import UserSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from django.core.mail import EmailMessage
 
 
 class UserPagination(PageNumberPagination):
@@ -25,13 +27,32 @@ class UserPagination(PageNumberPagination):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             messages.success(request, 'Registration successful!')
+
+            # Create and send the email
+            email = EmailMessage(
+                'Welcome to Our Site!',
+                'Thanks for registering with us. We are glad to have you on board.',
+                'your_email@gmail.com',  # From email
+                [user.email],  # To email
+            )
+
+            try:
+                email.send(fail_silently=False)  # Send the email and raise an exception if it fails
+                print(f"Email sent to: {user.email}")
+            except Exception as e:
+                print(f"Failed to send email: {e}")
+
             return redirect('login')
+        else:
+            print("Form is not valid")
+            print(form.errors)  # Print form errors for debugging
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
+
     return render(request, 'register.html', {'form': form})
 
 
@@ -44,8 +65,8 @@ def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get()
-            password = form.cleaned_data.get()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -120,6 +141,5 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         instance.delete()
         return Response({'status': 204, 'message': 'User deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
-
 
 
